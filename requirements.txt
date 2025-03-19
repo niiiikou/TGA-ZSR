@@ -11,6 +11,6 @@ scipy==1.13.0
 setuptools==68.0.0
 timm==0.9.16
 torch
-torchvision==0.16.2+cu118
+torchvision
 tqdm==4.65.0
 ttach==0.0.3
