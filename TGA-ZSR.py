@@ -31,7 +31,7 @@ def parse_option():
     parser.add_argument('--print_freq', type=int, default=50, help='print frequency')
     parser.add_argument('--save_freq', type=int, default=50, help='save frequency')
     parser.add_argument('--validate_freq', type=int, default=2, help='validate frequency')
-    parser.add_argument('--batch_size', type=int, default=128, help='batch_size')
+    parser.add_argument('--batch_size', type=int, default=32, help='batch_size')
     parser.add_argument('--epochs', type=int, default=10, help='number of training epochs')
 
     # optimization
@@ -102,6 +102,7 @@ def parse_option():
 
 def main():
     global best_acc1, device, logger
+    best_acc1 = 0
     args = parse_option()
     device = torch.device("cuda:{}".format(args.gpu))
     logger = logging.getLogger(__name__)
@@ -202,11 +203,12 @@ def main():
     
     """load val dataset(s)"""
     if args.testdata is None:
-        val_dataset_name = ['tinyImageNet','cifar10', 'cifar100','STL10','Food101','oxfordpet','flowers102','dtd','EuroSAT',\
-                            'fgvc_aircraft','Caltech101','Caltech256','StanfordCars','PCAM','ImageNet','SUN397']
+        val_dataset_name = ['tinyImageNet','cifar10']
     else:
         val_dataset_name = args.testdata
     val_dataset_list = load_val_datasets(args, val_dataset_name)
+    
+    
 
 
     """create dataloaders"""
