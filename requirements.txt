@@ -10,7 +10,7 @@ regex==2022.7.9
 scipy==1.13.0
 setuptools==68.0.0
 timm==0.9.16
-torch==2.1.2+cu118
+torch
 torchvision==0.16.2+cu118
 tqdm==4.65.0
 ttach==0.0.3
