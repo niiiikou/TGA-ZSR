@@ -203,7 +203,7 @@ def main():
     
     """load val dataset(s)"""
     if args.testdata is None:
-        val_dataset_name = ['tinyImageNet','cifar10']
+        val_dataset_name = ['cifar10']
     else:
         val_dataset_name = args.testdata
     val_dataset_list = load_val_datasets(args, val_dataset_name)
