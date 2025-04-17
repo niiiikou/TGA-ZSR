@@ -103,53 +103,53 @@ def parse_option():
                args.Beta, args.Distance_metric, args.atten_methods)
     return args
 
-IMAGENET_MEAN = (0.48145466, 0.4578275, 0.40821073)
-IMAGENET_STD = (0.26862954, 0.26130258, 0.27577711)
+# IMAGENET_MEAN = (0.48145466, 0.4578275, 0.40821073)
+# IMAGENET_STD = (0.26862954, 0.26130258, 0.27577711)
 
-def denormalize_clip(img_tensor):
-    img_tensor = img_tensor.clone()
-    mean = torch.tensor(IMAGENET_MEAN).view(-1, 1, 1).to(img_tensor.device)
-    std = torch.tensor(IMAGENET_STD).view(-1, 1, 1).to(img_tensor.device)
-    img_tensor = img_tensor * std + mean
-    img_tensor = img_tensor.clamp(0, 1)
-    return img_tensor
+# def denormalize_clip(img_tensor):
+#     img_tensor = img_tensor.clone()
+#     mean = torch.tensor(IMAGENET_MEAN).view(-1, 1, 1).to(img_tensor.device)
+#     std = torch.tensor(IMAGENET_STD).view(-1, 1, 1).to(img_tensor.device)
+#     img_tensor = img_tensor * std + mean
+#     img_tensor = img_tensor.clamp(0, 1)
+#     return img_tensor
 
 
-def visualize_attention(images, adv_images, clean_attn, adv_attn, prompts, save_path='attention_maps.png'):
-    num_samples = images.shape[0]
-    fig, axes = plt.subplots(num_samples, 4, figsize=(16, 4*num_samples))
+# def visualize_attention(images, adv_images, clean_attn, adv_attn, prompts, save_path='attention_maps.png'):
+#     num_samples = images.shape[0]
+#     fig, axes = plt.subplots(num_samples, 4, figsize=(16, 4*num_samples))
 
-    if num_samples == 1:
-        axes = axes[None, :]
+#     if num_samples == 1:
+#         axes = axes[None, :]
 
-    for i in range(num_samples):
-        img_np = TF.to_pil_image(denormalize_clip(images[i].cpu()))
-        axes[i, 0].imshow(img_np)
-        axes[i, 0].set_title("Clean Image")
-        axes[i, 0].axis('off')
+#     for i in range(num_samples):
+#         img_np = TF.to_pil_image(denormalize_clip(images[i].cpu()))
+#         axes[i, 0].imshow(img_np)
+#         axes[i, 0].set_title("Clean Image")
+#         axes[i, 0].axis('off')
 
-        attn_clean_map = clean_attn[i].reshape(int(np.sqrt(clean_attn.shape[1])), -1)
-        axes[i, 1].imshow(img_np, alpha=1.0)
-        axes[i, 1].imshow(attn_clean_map.cpu().detach().numpy(), cmap='jet', alpha=0.5,
-                          extent=(0, img_np.width, img_np.height, 0))
-        axes[i, 1].set_title(f"Clean Attention\n'{prompts[i]}'")
-        axes[i, 1].axis('off')
+#         attn_clean_map = clean_attn[i].reshape(int(np.sqrt(clean_attn.shape[1])), -1)
+#         axes[i, 1].imshow(img_np, alpha=1.0)
+#         axes[i, 1].imshow(attn_clean_map.cpu().detach().numpy(), cmap='jet', alpha=0.5,
+#                           extent=(0, img_np.width, img_np.height, 0))
+#         axes[i, 1].set_title(f"Clean Attention\n'{prompts[i]}'")
+#         axes[i, 1].axis('off')
 
-        adv_img_np = TF.to_pil_image(denormalize_clip(adv_images[i].cpu()))
-        axes[i, 2].imshow(adv_img_np)
-        axes[i, 2].set_title("Adversarial Image")
-        axes[i, 2].axis('off')
+#         adv_img_np = TF.to_pil_image(denormalize_clip(adv_images[i].cpu()))
+#         axes[i, 2].imshow(adv_img_np)
+#         axes[i, 2].set_title("Adversarial Image")
+#         axes[i, 2].axis('off')
 
-        attn_adv_map = adv_attn[i].reshape(int(np.sqrt(adv_attn.shape[1])), -1)
-        axes[i, 3].imshow(adv_img_np, alpha=1.0)
-        axes[i, 3].imshow(attn_adv_map.cpu().detach().numpy(), cmap='jet', alpha=0.5,
-                          extent=(0, adv_img_np.width, adv_img_np.height, 0))
-        axes[i, 3].set_title(f"Adv Attention\n'{prompts[i]}'")
-        axes[i, 3].axis('off')
+#         attn_adv_map = adv_attn[i].reshape(int(np.sqrt(adv_attn.shape[1])), -1)
+#         axes[i, 3].imshow(adv_img_np, alpha=1.0)
+#         axes[i, 3].imshow(attn_adv_map.cpu().detach().numpy(), cmap='jet', alpha=0.5,
+#                           extent=(0, adv_img_np.width, adv_img_np.height, 0))
+#         axes[i, 3].set_title(f"Adv Attention\n'{prompts[i]}'")
+#         axes[i, 3].axis('off')
 
-    plt.tight_layout()
-    plt.savefig(save_path)
-    plt.close()
+#     plt.tight_layout()
+#     plt.savefig(save_path)
+#     plt.close()
 
 
 def main():
@@ -249,53 +249,53 @@ def main():
     ###################################
 
 
-    model.eval()
-    frozen_model.eval()
-    prompter.eval()
-    add_prompter.eval()
+    # model.eval()
+    # frozen_model.eval()
+    # prompter.eval()
+    # add_prompter.eval()
 
-    # Prepare CIFAR-10 data
-    val_dataset = load_val_datasets(args, ['tinyImageNet'])[0]
-    val_loader = DataLoader(val_dataset, batch_size=10, shuffle=True)
+    # # Prepare CIFAR-10 data
+    # val_dataset = load_val_datasets(args, ['tinyImageNet'])[0]
+    # val_loader = DataLoader(val_dataset, batch_size=10, shuffle=True)
 
-    # Text prompts (modify here to change prompts clearly)
-    template = "This is a photo of a {}"
-    texts = get_text_prompts_val([val_dataset], ['tinyImageNet'], template=template)[0]
+    # # Text prompts (modify here to change prompts clearly)
+    # template = "This is a photo of a {}"
+    # texts = get_text_prompts_val([val_dataset], ['tinyImageNet'], template=template)[0]
 
-    # Get a batch of images
-    images, targets = next(iter(val_loader))
-    images, targets = images.to(device), targets.to(device)
-    text_tokens = clip.tokenize(texts).to(device)
+    # # Get a batch of images
+    # images, targets = next(iter(val_loader))
+    # images, targets = images.to(device), targets.to(device)
+    # text_tokens = clip.tokenize(texts).to(device)
 
-    # Generate adversarial images using PGD clearly as in original script
-    test_stepsize = args.test_stepsize
-    delta_noprompt = attack_pgd(None, model, None, images, targets, text_tokens,
-                                test_stepsize, args.test_numsteps, 'l_inf', device,
-                                args, epsilon=args.test_eps)
-    adv_images = images + delta_noprompt
+    # # Generate adversarial images using PGD clearly as in original script
+    # test_stepsize = args.test_stepsize
+    # delta_noprompt = attack_pgd(None, model, None, images, targets, text_tokens,
+    #                             test_stepsize, args.test_numsteps, 'l_inf', device,
+    #                             args, epsilon=args.test_eps)
+    # adv_images = images + delta_noprompt
 
-    # Compute attention maps clearly
-    with torch.no_grad():
-        clean_features = clip_img_preprocessing(images, device)
-        adv_features = clip_img_preprocessing(adv_images, device)
+    # # Compute attention maps clearly
+    # with torch.no_grad():
+    #     clean_features = clip_img_preprocessing(images, device)
+    #     adv_features = clip_img_preprocessing(adv_images, device)
 
-        output_clean, _, text_features = multiGPU_CLIP(model, clean_features, text_tokens, targets, device, None)
+    #     output_clean, _, text_features = multiGPU_CLIP(model, clean_features, text_tokens, targets, device, None)
 
-        clean_attn = attention_map(text_features[targets], frozen_model, clean_features, None, args).view(images.size(0), -1)
-        adv_attn = attention_map(text_features[targets], model, adv_features, None, args).view(images.size(0), -1)
+    #     clean_attn = attention_map(text_features[targets], frozen_model, clean_features, None, args).view(images.size(0), -1)
+    #     adv_attn = attention_map(text_features[targets], model, adv_features, None, args).view(images.size(0), -1)
 
-    # Visualization clearly defined here
-    visualize_attention(
-            images=clean_features,
-            adv_images=adv_features,
-            clean_attn=clean_attn,
-            adv_attn=adv_attn,
-            prompts=[texts[target] for target in targets],
-            save_path='attention_maps.png'
-    )
+    # # Visualization clearly defined here
+    # visualize_attention(
+    #         images=clean_features,
+    #         adv_images=adv_features,
+    #         clean_attn=clean_attn,
+    #         adv_attn=adv_attn,
+    #         prompts=[texts[target] for target in targets],
+    #         save_path='attention_maps.png'
+    # )
 
-    print("Inference-only visualization completed. Check attention_maps.png")
-    return  # Stop further execution to avoid training
+    # print("Inference-only visualization completed. Check attention_maps.png")
+    # return  # Stop further execution to avoid training
 
 
 ###########################################
